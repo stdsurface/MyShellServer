@@ -28,7 +28,7 @@ def update_server_encoding(line_with_newline):
             encod = 'utf-8'
             confi = 0.0
         if encod != SERVER_ENCODING:
-            verbose_print(f'changing encoding: {SERVER_ENCODING} -> {encod} ({SERVER_ENCODING_CONFIDENCE} -> {confi})', end='')
+            verbose_print('changing encoding: {} -> {} ({} -> {})'.format((SERVER_ENCODING), (encod), (SERVER_ENCODING_CONFIDENCE), (confi)), end='')
             SERVER_ENCODING = encod
             SERVER_ENCODING_CONFIDENCE = confi
         CHARACTER_BUFFER = b''
