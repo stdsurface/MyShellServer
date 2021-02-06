@@ -1,7 +1,7 @@
 @echo off
 setlocal enabledelayedexpansion
 future-fstrings-show -h||(
-    echo="future-fstrings is not installed."
+    echo="future-fstrings is not installed. please use `pip install future-fstrings[rewrite]` to install it."
     goto lastline
 )
 call git_quickly.bat
