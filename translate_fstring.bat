@@ -1,5 +1,9 @@
 @echo off
 setlocal enabledelayedexpansion
+future-fstrings-show -h||(
+    echo="future-fstrings is not installed."
+    goto :eof
+)
 for /f "delims=" %%i in ('dir "%~dp0*.py" /s /b /a:-d') do (
     :choose_tmp_fil
     set "tmp_fil=%%~dpni.!random!.py"
