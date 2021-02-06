@@ -1,6 +1,5 @@
 @echo off
 setlocal enabledelayedexpansion
-pushd "%~dp0"
 if /i "!PROCESSOR_ARCHITECTURE!" equ "AMD64" (
     set "arch_string=nt64"
 ) else (
@@ -20,5 +19,3 @@ rmdir /s /q "build"
 del /f /q "!servername!.spec"
 call remove_python_cache.bat
 echo="compilation of !servername! finished."
-
-popd
