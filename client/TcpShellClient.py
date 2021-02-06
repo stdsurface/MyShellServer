@@ -1,16 +1,52 @@
 ﻿# -*- coding: utf-8 -*-
 import socket
-from subprocess import Popen, PIPE
-import time
-import os
-import sys
+from chardet import detect
 from threading import Thread
 import configparser
 from utility.LogCommon import *
 
-SERVER_IP_PORT = ('127.0.0.1', 8000)
+SERVER_IP_PORT = None
 SERVER_ENCODING = 'utf-8'
+SERVER_ENCODING_CONFIDENCE = 0.0
 IS_TERMINATED = False
+MAX_CAPACITY = 256
+CHARACTER_BUFFER = b''
+BYTES_REMAINING = b''
+
+
+def update_server_encoding(line_with_newline):
+    global CHARACTER_BUFFER, SERVER_ENCODING, SERVER_ENCODING_CONFIDENCE
+    if len(CHARACTER_BUFFER) >= MAX_CAPACITY:
+        CHARACTER_BUFFER += line_with_newline
+        try:
+            dicts = detect(CHARACTER_BUFFER)
+            encod = dicts["encoding"]
+            confi = dicts["confidence"]
+            if encod == None or encod == 'ascii':
+                encod = 'utf-8'
+        except:
+            encod = 'utf-8'
+            confi = 0.0
+        if encod != SERVER_ENCODING:
+            verbose_print(f'changing encoding: {SERVER_ENCODING} -> {encod} ({SERVER_ENCODING_CONFIDENCE} -> {confi})', end='')
+            SERVER_ENCODING = encod
+            SERVER_ENCODING_CONFIDENCE = confi
+        CHARACTER_BUFFER = b''
+    else:
+        CHARACTER_BUFFER += line_with_newline
+
+
+def split_and_update(barr):
+    global BYTES_REMAINING
+    assert len(barr) > 0
+    arr = barr.split(b'\n')
+    if len(arr) == 1:
+        BYTES_REMAINING += arr[0]
+    else:
+        arr[0] = BYTES_REMAINING + arr[0]
+        for idx in range(0, len(arr)-1):
+            update_server_encoding(arr[idx]+b'\n')
+        BYTES_REMAINING = arr[-1]
 
 
 def convert_str_to_bytes(s):
@@ -28,6 +64,7 @@ def stdout_callback(sk):
             b = sk.recv(4096)
             if len(b) == 0:
                 break
+            split_and_update(b)
             bs = convert_bytes_to_str(b)
             print(bs, end='')
     except OSError:

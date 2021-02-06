@@ -9,7 +9,7 @@ import traceback
 import configparser
 from utility.LogCommon import *
 
-SERVER_IP_PORT = ('0.0.0.0', 8000)
+SERVER_IP_PORT = None
 SERVER_SOCKET = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 SERVER_EXECUTABLE = None
 
