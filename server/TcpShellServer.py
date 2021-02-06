@@ -28,30 +28,30 @@ def stdout_callback(pout, wfile, rfile, conn):
                     break
             wfile.write(b)
     except Exception as e:
-        error_print(f"stdout/stderr_callback break loop with {e}.")
+        error_print("stdout/stderr_callback break loop with {}.".format((e)))
 
     try:
         pout.close()
     except Exception as e:
         error_print(
-            f"stdout/stderr_callback close stdout/stderr of subprocess with {e}.")
+            "stdout/stderr_callback close stdout/stderr of subprocess with {}.".format((e)))
 
     try:
         wfile.close()
     except Exception as e:
-        error_print(f"stdout/stderr_callback close wfile with {e}.")
+        error_print("stdout/stderr_callback close wfile with {}.".format((e)))
 
     try:
         rfile.close()
     except Exception as e:
-        error_print(f"stdout/stderr_callback close rfile with {e}.")
+        error_print("stdout/stderr_callback close rfile with {}.".format((e)))
 
     try:
         conn.close()
     except Exception as e:
-        error_print(f"stdout/stderr_callback close socket with {e}.")
+        error_print("stdout/stderr_callback close socket with {}.".format((e)))
 
-    warning_print(f"exiting stdout/stderr_callback ...")
+    warning_print("exiting stdout/stderr_callback ...".format())
 
 
 def thd_callback(conn, addr):
@@ -69,20 +69,20 @@ def thd_callback(conn, addr):
         thdout.setDaemon(True)
         thdout.start()
         info_print(
-            f"starting a thread for recv stdout from subprocess, at {addr} ...")
+            "starting a thread for recv stdout from subprocess, at {} ...".format((addr)))
 
         thdout2 = Thread(target=stdout_callback,
                          args=(perr, wfile, rfile, conn))
         thdout2.setDaemon(True)
         thdout2.start()
         info_print(
-            f"starting a thread for recv stderr from subprocess, at {addr} ...")
+            "starting a thread for recv stderr from subprocess, at {} ...".format((addr)))
 
         while not rfile.closed:
             data = rfile.readline()
             if len(data) == 0:
                 break
-            verbose_print(f"recv {(data)} from {addr}.")
+            verbose_print("recv {} from {}.".format(((data)), (addr)))
 
             if rfile.closed:
                 break
@@ -93,25 +93,25 @@ def thd_callback(conn, addr):
             pin.flush()
 
     except Exception as e:
-        error_print(f"thd_callback recv socket with {e}.")
+        error_print("thd_callback recv socket with {}.".format((e)))
         # traceback.print_exc()
 
     try:
         p.terminate()
     except Exception as e:
-        error_print(f"thd_callback close subprocess with {e}.")
+        error_print("thd_callback close subprocess with {}.".format((e)))
 
     try:
         pin.close()
     except Exception as e:
-        error_print(f"thd_callback close stdin of subprocess with {e}.")
+        error_print("thd_callback close stdin of subprocess with {}.".format((e)))
 
-    warning_print(f"exiting thd_callback ...")
+    warning_print("exiting thd_callback ...".format())
 
 
 def exit(signum, frame):
     try:
-        warning_print(f"closing server socket at exit ...")
+        warning_print("closing server socket at exit ...".format())
         SERVER_SOCKET.close()
     except:
         pass
@@ -125,17 +125,17 @@ def server_accept_callback():
         while True:
             conn, addr = sk.accept()
             # conn.setsockopt(socket.SOL_SOCKET, socket.SO_LINGER, 0)
-            info_print(f"accept a connection from {addr}.")
+            info_print("accept a connection from {}.".format((addr)))
 
             thd = Thread(target=thd_callback, args=(conn, addr))
             thd.setDaemon(True)
             thd.start()
-            debug_print(f"starting a recv thread for peer {addr} ...")
+            debug_print("starting a recv thread for peer {} ...".format((addr)))
     except OSError:
         pass
     except Exception as e:
-        error_print(f"server_accept_callback break loop with {e}.")
-    warning_print(f"exiting server_accept_callback ...")
+        error_print("server_accept_callback break loop with {}.".format((e)))
+    warning_print("exiting server_accept_callback ...".format())
 
 
 class TcpShellServer:
@@ -158,7 +158,7 @@ class TcpShellServer:
 
         sk = SERVER_SOCKET
         sk.bind(SERVER_IP_PORT)
-        debug_print(f"binding {SERVER_IP_PORT} ...")
+        debug_print("binding {} ...".format((SERVER_IP_PORT)))
         sk.listen(50)
         warning_print('listening ...')
 
@@ -168,7 +168,7 @@ class TcpShellServer:
         thd = Thread(target=server_accept_callback)
         thd.setDaemon(True)
         thd.start()
-        verbose_print(f"starting a accept thread for server ...")
+        verbose_print("starting a accept thread for server ...".format())
 
         while True:
             try:

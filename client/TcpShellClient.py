@@ -33,8 +33,8 @@ def stdout_callback(sk):
     except OSError:
         pass
     except Exception as e:
-        error_print(f"stdout_callback break loop with {e}.")
-    warning_print(f"exiting stdout_callback ...")
+        error_print("stdout_callback break loop with {}.".format((e)))
+    warning_print("exiting stdout_callback ...".format())
     IS_TERMINATED = True
 
 
@@ -65,7 +65,7 @@ class TcpShellClient:
 
         while not IS_TERMINATED:
             try:
-                user_input = f"{input()}\n"
+                user_input = "{}\n".format((input()))
                 if len(user_input) == 0:
                     break
                 # verbose_print(repr(user_input))
@@ -80,13 +80,13 @@ class TcpShellClient:
             except OSError:
                 break
             except Exception as e:
-                error_print(f"stdin_callback break loop with {repr(e)}.")
+                error_print("stdin_callback break loop with {}.".format((repr(e))))
                 break
 
         try:
             sk.close()
         except Exception as e:
-            error_print(f"close client socket with {e}.")
+            error_print("close client socket with {}.".format((e)))
         thda.join()
 
         warning_print("bye.")

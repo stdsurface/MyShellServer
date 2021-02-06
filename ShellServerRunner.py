@@ -23,4 +23,4 @@ if __name__ == "__main__":
         server_instance = TcpShellServer(fil)
         server_instance.run()
     else:
-        critical_print(f"Method = `{method}` is unsupported.")
+        critical_print("Method = `{}` is unsupported.".format((method)))

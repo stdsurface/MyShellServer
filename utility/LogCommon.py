@@ -14,56 +14,56 @@ class ConsoleLogger:
     def verbose(self, *args, **kwargs):
         if self.log_level >= 7:
             args = len(args) > 0 and list(args) or [""]
-            args[0] = f"\033[92mVerbose: {args[0]}"
-            args[-1] = f"{args[-1]}\033[0m"
+            args[0] = "\033[92mVerbose: {}".format((args[0]))
+            args[-1] = "{}\033[0m".format((args[-1]))
             kwargs['file'] = stderr
             print(*args, **kwargs)
 
     def debug(self, *args, **kwargs):
         if self.log_level >= 6:
             args = len(args) > 0 and list(args) or [""]
-            args[0] = f"\033[96mDebug: {args[0]}"
-            args[-1] = f"{args[-1]}\033[0m"
+            args[0] = "\033[96mDebug: {}".format((args[0]))
+            args[-1] = "{}\033[0m".format((args[-1]))
             kwargs['file'] = stderr
             print(*args, **kwargs)
 
     def info(self, *args, **kwargs):
         if self.log_level >= 5:
             args = len(args) > 0 and list(args) or [""]
-            args[0] = f"\033[97mInfo: {args[0]}"
-            args[-1] = f"{args[-1]}\033[0m"
+            args[0] = "\033[97mInfo: {}".format((args[0]))
+            args[-1] = "{}\033[0m".format((args[-1]))
             kwargs['file'] = stderr
             print(*args, **kwargs)
 
     def warning(self, *args, **kwargs):
         if self.log_level >= 4:
             args = len(args) > 0 and list(args) or [""]
-            args[0] = f"\033[93mWarning: {args[0]}"
-            args[-1] = f"{args[-1]}\033[0m"
+            args[0] = "\033[93mWarning: {}".format((args[0]))
+            args[-1] = "{}\033[0m".format((args[-1]))
             kwargs['file'] = stderr
             print(*args, **kwargs)
 
     def error(self, *args, **kwargs):
         if self.log_level >= 3:
             args = len(args) > 0 and list(args) or [""]
-            args[0] = f"\033[95mError: {args[0]}"
-            args[-1] = f"{args[-1]}\033[0m"
+            args[0] = "\033[95mError: {}".format((args[0]))
+            args[-1] = "{}\033[0m".format((args[-1]))
             kwargs['file'] = stderr
             print(*args, **kwargs)
 
     def critical(self, *args, **kwargs):
         if self.log_level >= 2:
             args = len(args) > 0 and list(args) or [""]
-            args[0] = f"\033[91mCritical: {args[0]}"
-            args[-1] = f"{args[-1]}\033[0m"
+            args[0] = "\033[91mCritical: {}".format((args[0]))
+            args[-1] = "{}\033[0m".format((args[-1]))
             kwargs['file'] = stderr
             print(*args, **kwargs)
 
     def question(self, *args, **kwargs):
         if self.log_level >= 1:
             args = len(args) > 0 and list(args) or [""]
-            args[0] = f"\033[94mQuestion: {args[0]}"
-            args[-1] = f"{args[-1]}\033[0m"
+            args[0] = "\033[94mQuestion: {}".format((args[0]))
+            args[-1] = "{}\033[0m".format((args[-1]))
             kwargs['file'] = stderr
             print(*args, **kwargs)
 
